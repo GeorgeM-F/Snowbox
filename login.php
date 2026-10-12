@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php echo $link; ?>
   </form>
 
-  <a class="bot" href="index.php">TORNA INDIETRO</a>
+  <a class="bot" href="index.php">BACK</a>
 </div>
 
 <?php   // CODICE DI CONTROLLO SESSIONE, ELIMINARE UNA VOLTA FINITO
