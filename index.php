@@ -17,7 +17,7 @@ try {
   die("ERRORE! NON E' STATO POSSIBILE CONNETTERSI AL DATABASE." . $e->getMessage());
 }
 
-$boardquer = $pdo->query("SELECT name FROM boards");
+$boardquer = $pdo->query("SELECT boardname FROM boards ORDER BY rowid ASC");
 $boardarr = $boardquer->fetchAll(PDO::FETCH_COLUMN);
 $boardescquer = $pdo->query("SELECT description FROM boards");
 $boardescarr = $boardescquer->fetchAll(PDO::FETCH_COLUMN);
@@ -36,15 +36,16 @@ $boardescarr = $boardescquer->fetchAll(PDO::FETCH_COLUMN);
 <div class="sez">
   <h1>SNOWBOX</h1>
 
-  <p>Welcome to Snowbox.</p>
-  <div class="oriz">
-    <a class="butt" href="signup.php">SignUp</a>
-    <a class="butt" href="index.php?curuser=none">LogOut</a>
-    <a class="butt" href="login.php">LogIn</a>
+  <h2>Experimental internet forum/imageboard</h2>
+  <div class="sez">
+    <div class="oriz">
+      <a class="butt" href="signup.php">SignUp</a>
+      <a class="butt" href="index.php?curuser=none">LogOut</a>
+      <a class="butt" href="login.php">LogIn</a>
+    </div>
+    <?php echo $welcome; ?>
+    <?php echo $useraccess; ?>
   </div>
-  <?php echo $welcome; ?>
-  <?php echo $useraccess; ?>
-  <hr>
   <?php
     $j=-1;
     foreach ($boardarr as $i) {

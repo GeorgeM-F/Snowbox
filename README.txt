@@ -1,12 +1,12 @@
 Simple internet forum/imageboard.
 
-CURRENT STATUS: Incomplete (only the home page, and the signup/login forms are functional).
+CURRENT STATUS: Barely complete (functional, but still lacking several features).
 
 INFORMATIONS: Made in nginx with PHP and SQLite.
 
 STRUCTURE:
 - .git:          Git directory (you can remove it).
-- pics:          This is where user-uploaded pics are stored.
+- pics:          This is where all pics are stored.
 - database.db:   SQLite database.
 - error.log:     Used during development for checking errors/bugs (you can remove it).
 - index.php:     Home page.

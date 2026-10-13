@@ -18,7 +18,7 @@ body {
 }
 
 .sez, form {
-  margin: 12px 12px 12px 12px;
+  margin: 18px 18px 18px 18px;
   border-style: solid;
   border-width: 8px;
   border-radius: 24px;
@@ -47,7 +47,7 @@ body {
 }
 
 textarea, select, option, input {
-  margin: 6px 6px 6px 6px;
+  margin: 9px 9px 9px 9px;
   border-style: solid;
   border-width: 4px;
   border-radius: 24px;
@@ -65,7 +65,7 @@ h2 {
 }
 
 p {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .log {
@@ -81,7 +81,7 @@ p {
 
 a {
   display: block;
-  margin: 6px 6px 6px 6px;
+  margin: 9px 9px 9px 9px;
   background-color: rgba(192,224,224,0.5);
   border-style: solid;
   border-width: 4px;
@@ -117,7 +117,7 @@ a:active {
 }
 
 .risez {
-  margin: 12px 12px 12px 12px;
+  margin: 18px 18px 18px 18px;
   width: 100%;
   border-style: solid;
   border-width: 8px;
@@ -129,12 +129,13 @@ a:active {
 }
 
 .mess {
+  background-color: rgba(255,255,255,1);
   font-size: 24px;
   text-align: center;
 }
 
 .butt, button {
-  margin: 6px 6px 6px 6px;
+  margin: 9px 9px 9px 9px;
   background-color: rgba(192,224,224,0.5);
   text-align: center;
   font-size: 24px;
@@ -153,5 +154,5 @@ a:active {
 }
 
 hr {
-  margin: 6px 6px 6px 6px;
+  margin: 9px 9px 9px 9px;
 }
