@@ -1,6 +1,6 @@
 @font-face {
-  font-family: altone;
-  src: url("/var/www/snowbox/Altone.ttf") format("ttf");
+  font-family: franks;
+  src: url("/var/www/snowbox/Franks.ttf") format("ttf");
 }
 
 * {
@@ -38,11 +38,11 @@ body {
   color: rgba(255,255,255,1);
 }
 
-.info {
+.quotinv {
   display: none;
 }
 
-.vis:hover ~ .info {
+.quotvis:hover ~ .quotinv {
   display: block;
 }
 
@@ -97,6 +97,10 @@ a:hover {
   border-style: solid;
   border-width: 4px;
   border-color: rgba(0,255,255,1);
+  animation-name: animazione;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 a:active {
@@ -155,4 +159,18 @@ a:active {
 
 hr {
   margin: 9px 9px 9px 9px;
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 12px;
+  border-color: rgba(192,224,224,0.5);
+}
+
+@keyframes animazione {
+  0%   {border-color: rgba(255,0,0,1);}
+  17%  {border-color: rgba(255,255,0,1);}
+  33% {border-color: rgba(0,255,0,1);}
+  50%   {border-color: rgba(0,255,255,1);}
+  67%  {border-color: rgba(0,0,255,1);}
+  83% {border-color: rgba(255,0,255,1);}
+  100%   {border-color: rgba(255,0,0,1);}
 }

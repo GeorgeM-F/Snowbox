@@ -1,6 +1,14 @@
 Simple internet forum/imageboard.
 
-CURRENT STATUS: Barely complete (functional, but still lacking several features).
+CURRENTLY AVAILABLE FEATURES:
+- signup/login/logout
+- making threads/posts
+- posting pictures
+
+STILL UNAVAILABLE FEATURES:
+- changing nickname/avatar/password
+- quoting other posts
+- resizing/hiding/showing pictures
 
 INFORMATIONS: Made in nginx with PHP and SQLite.
 
