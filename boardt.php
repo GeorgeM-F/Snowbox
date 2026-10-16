@@ -11,9 +11,9 @@ try {
 }
 
 // THREAD LIST QUERY
-$threadquer = $pdo->prepare("SELECT threadtitle FROM threads WHERE boardname = :boardname ORDER BY rowid ASC");
+$threadquer = $pdo->prepare("SELECT * FROM threads WHERE boardname = :boardname ORDER BY rowid DESC");
 $threadquer->execute([':boardname' => $_SESSION['curboard']]);
-$threadarr = $threadquer->fetchAll(PDO::FETCH_COLUMN);
+$threadarr = $threadquer->fetchAll(PDO::FETCH_ASSOC);
 
 // THREAD CREATION QUERY
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -24,15 +24,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($stmt->fetchColumn() > 0) {
     $messaggio = "<p style='color: red;'>THREAD ALREADY PRESENT; CHOOSE ANOTHER TITLE";
   } else {   // CREATE THREAD
-    $stmt = $pdo->prepare("INSERT INTO threads (boardname, threadtitle) VALUES (:boardname, :threadtitle)");
+    $stmt = $pdo->prepare("INSERT INTO threads (boardname, threadtitle, date) VALUES (:boardname, :threadtitle, :date)");
     $stmt->bindParam(':boardname', $_SESSION['curboard'], PDO::PARAM_STR);
     $stmt->bindParam(':threadtitle', $threadtitle, PDO::PARAM_STR);
+    $stmt->bindParam(':date', date('Y-m-d H:i:s'), PDO::PARAM_STR);
     if ($stmt->execute()) {
       $messaggio = "<p class='mess' style='color: rgba(0,255,255,1);'>NEW THREAD CREATED!</p>";
     } else {
       $messaggio = "<p class='mess' style='color: red;'>ERROR: SOMETHING WENT WRONG</p>";
     }
   }
+  // RICARICA PAGINA CORRETTAMENTE
+  header("Location: " . $_SERVER['REQUEST_URI']);
+  exit;
 }
 ?>
 
@@ -48,10 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="sez">
   <?php echo '<h1>'.$_SESSION['curboard'].'</h1>'; ?>
   <?php
-    $j=-1;
     foreach ($threadarr as $i) {
-      $j=$j+1;
-      echo '<a class="butt" href="threadt.php?curthread='.$i.'"><strong>'.$i.'</strong></a>';
+      echo '<a class="butt" href="threadt.php?curthread='.$i["threadtitle"].'"><strong>'.$i["threadtitle"].'</strong><br>'.$i["date"].'</a>';
     }
   ?>
   <form action="" method="POST" enctype="multipart/form-data">
