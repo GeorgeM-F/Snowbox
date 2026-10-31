@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       echo '<div class="sez">
               <h2><img style="display:inline; max-width: 96px;" src='.$avauthor.'>'.$author.'</h2>
               <hr>
-              <img style="display:block; max-width: 288px;" src='.$postpic.'>
+              <img class="postedpicture" src='.$postpic.'>
               <p>'.$i["message"].'</p>
               <hr>
               <p>'.$i["date"].'</p>

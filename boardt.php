@@ -7,7 +7,7 @@ try {
   $pdo = new PDO("sqlite:database.db");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-  die("ERRORE! NON E' STATO POSSIBILE CONNETTERSI AL DATABASE." . $e->getMessage());
+  die("DATABASE CONNECTION ERROR" . $e->getMessage());
 }
 
 // THREAD LIST QUERY
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $messaggio = "<p class='mess' style='color: red;'>ERROR: SOMETHING WENT WRONG</p>";
     }
   }
-  // RICARICA PAGINA CORRETTAMENTE
+  // CORRECTLY RELOAD PAGE
   header("Location: " . $_SERVER['REQUEST_URI']);
   exit;
 }
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <a class="bot" href="index.php">BACK</a>
 </div>
 
-<?php   // CODICE DI CONTROLLO SESSIONE, ELIMINARE UNA VOLTA FINITO
+<?php   // SESSION CONTROL CODE, REMOVE ONCE DONE
 foreach ($_SESSION as $i) {
   echo '<p>'.$i.'</p>';
 }

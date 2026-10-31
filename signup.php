@@ -4,18 +4,18 @@ try {
   $pdo = new PDO("sqlite:database.db");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-  die("ERRORE! NON E' STATO POSSIBILE CONNETTERSI AL DATABASE." . $e->getMessage());
+  die("DATABASE CONNECTION ERROR!" . $e->getMessage());
 }
 
-$messaggio = "";     // Parti di HTML da riempire e visualizzare successivamente
+$messaggio = "";     // HTML pieces to fill afterwards
 $link = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {   // Nota: i files vengono caricati in $_FILES, non in $_POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {   // Note: i files are loaded into $_FILES, not $_POST
   $nick = isset($_POST['nick']) ? trim($_POST['nick']) : '';
-  $avatar = '/pics/'.basename($_FILES['avatar']['tmp_name']);   // nome del file caricato, modificato in modo da puntare alla cartella "pics"
+  $avatar = '/pics/'.basename($_FILES['avatar']['tmp_name']);   // loaded file name, edited in order to point at the "pics" directory
   $password = isset($_POST['password']) ? trim($_POST['password']) : '';
   // CONTROLLO EVENTUALI DOPPIONI
-  $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE nick = :nick OR avatar = :avatar OR password = :password");     // QUERY (PER L'INSERIMENTO DEI DATI IN MODO SICURO: invece dei valori usiamo dei segnaposto (":"))
+  $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE nick = :nick OR avatar = :avatar OR password = :password");     // SAFE INSERTION QUERY invece dei valori usiamo dei segnaposto (":"))
   $stmt->execute([':nick' => $nick, ':avatar' => $avatar, ':password' => $password]);
   if ($stmt->fetchColumn() > 0) {
     $messaggio = "<p style='color: red;'>USER ALREADY PRESENT: CHOOSE ANOTHER NICKNAME AND/OR AVATAR AND/OR PASSWORD.";

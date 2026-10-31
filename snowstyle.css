@@ -28,6 +28,15 @@ body {
   padding: 6px 6px 6px 6px;
 }
 
+.postedpicture {
+  display: block;
+  max-width: 288px;
+}
+.postedpicture:active {
+  display: block;
+  max-width: 16384px;
+}
+
 .vis {
   display: inline;
   border-style: solid;

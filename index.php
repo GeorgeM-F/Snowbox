@@ -1,11 +1,14 @@
 <?php
 session_start();
-if (isset($_GET['curuser'])) {   //se "curuser" nell'URL vale qualcosa...
-  $_SESSION['curuser'] = null;
-  $welcome = "You're not logged in yet.<br>You can still post and make threads, but all your posts will have the default nickname and avatar 'Snowflake'.";
-} else {
+if (isset($_COOKIE['curuser'])) {
+  $_SESSION['curuser'] = $_COOKIE['curuser'];
+}
+if (isset($_SESSION['curuser']) and $_SESSION['curuser'] != null and !isset($_GET['curuser'])) {
   $welcome = "You're currently logged in as <strong>".$_SESSION['curuser']."</strong>.";
   $useraccess = "<a class='butt' href='usareat.php'>Your dashboard</a>";
+} else {
+  $_SESSION['curuser'] = null;
+  $welcome = "You're not logged in yet.<br>You can still post and make threads, but all your posts will have the default nickname and avatar 'Snowflake'.";
 }
 $_SESSION['curboard'] = null;
 $_SESSION['curthread'] = null;
@@ -14,7 +17,7 @@ try {
   $pdo = new PDO("sqlite:database.db");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-  die("ERRORE! NON E' STATO POSSIBILE CONNETTERSI AL DATABASE." . $e->getMessage());
+  die("DATABASE CONNECTION ERROR!" . $e->getMessage());
 }
 
 $boardquer = $pdo->query("SELECT boardname FROM boards ORDER BY rowid ASC");
@@ -58,7 +61,7 @@ $boardescarr = $boardescquer->fetchAll(PDO::FETCH_COLUMN);
 
 </div>
 
-<?php   // CODICE DI CONTROLLO SESSIONE, ELIMINARE UNA VOLTA FINITO
+<?php   // SESSION CONTROL CODE, REMOVE ONCE DONE
 foreach ($_SESSION as $i) {
   echo '<p>'.$i.'</p>';
 }
