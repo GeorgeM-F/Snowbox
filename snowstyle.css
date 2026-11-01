@@ -10,7 +10,7 @@
 }
 
 body {
-  background-color: rgba(192,224,224,0.75);
+  background-color: rgba(192,224,224,0.5);
   background-image: url("/pics/back.jpg");
   background-repeat: repeat;
   background-position: center;
@@ -24,7 +24,7 @@ body {
   border-width: 8px;
   border-radius: 24px;
   border-color: rgba(192,224,224,1);
-  background-color: rgba(192,224,224,0.25);
+  background-color: rgba(192,224,224,0.5);
   padding: 6px 6px 6px 6px;
 }
 
@@ -37,32 +37,33 @@ body {
   max-width: 16384px;
 }
 
-.vis {
-  display: inline;
-  border-style: solid;
-  border-width: 8px;
-  border-radius: 24px;
-  border-color: rgba(192,224,224,1);
-  background-color: rgba(192,224,224,0.25);
-  font-size: 16px;
-  color: rgba(255,255,255,1);
-}
-
 .quotinv {
   display: none;
 }
-
 .quotvis:hover ~ .quotinv {
   display: block;
 }
 
-textarea, select, option, input {
+textarea, select, option, input, button {
   margin: 9px 9px 9px 9px;
   border-style: solid;
   border-width: 4px;
   border-radius: 24px;
   border-color: rgba(255,255,255,1);
-  background-color: rgba(255,255,255,0.25);
+  background-color: rgba(255,255,255,0.5);
+}
+
+textarea:hover, select:hover, option:hover, input:hover, button:hover {
+  margin: 9px 9px 9px 9px;
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 24px;
+  border-color: rgba(255,255,255,1);
+  background-color: rgba(255,255,255,0.5);
+  animation-name: animazione;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 h1 {
@@ -102,7 +103,7 @@ a {
 
 a:hover {
   display: block;
-  background-color: rgba(0,255,255,0.25);
+  background-color: rgba(0,255,255,0.5);
   color: rgba(0,0,0,1);
   border-style: solid;
   border-width: 4px;
@@ -137,7 +138,7 @@ a:active {
   border-width: 8px;
   border-radius: 24px;
   border-color: rgba(192,224,224,1);
-  background-color: rgba(192,224,224,0.25);
+  background-color: rgba(192,224,224,0.5);
   padding: 6px 6px 6px 6px;
   text-align: center;
 }
@@ -160,7 +161,7 @@ a:active {
 }
 
 .bot:hover, button:hover {
-  background-color: rgba(0,255,255,0.25);
+  background-color: rgba(0,255,255,0.5);
 }
 
 .bot:active, button:active {

@@ -75,11 +75,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       } else {
         $postpic = $i["picture"];
       }
+      $processedmessage = str_replace("[quote start:]", "<br><span style='color: rgba(255,255,255,1);'>quote: </span><em><span style='color: rgba(0,128,255,1);'>", $i["message"]);   // in the message, replace every instance of [AQ:] with <span>
+      $processedmessage = str_replace("[:quote end]", "</span></em><br>", $processedmessage);   // in the message, replace every instance of [:QZ] with </span>
+      $argname="'txtarid'";   #(defined here in order to avoid problems with ''s and ""s)
       echo '<div class="sez">
               <h2><img style="display:inline; max-width: 96px;" src='.$avauthor.'>'.$author.'</h2>
               <hr>
               <img class="postedpicture" src='.$postpic.'>
-              <p>'.$i["message"].'</p>
+              <p>'.$processedmessage.'</p>
+              <button onclick="quote('.$argname.')" style="font-size: 12px;">Quote selected</button>
               <hr>
               <p>'.$i["date"].'</p>
             </div>';
@@ -93,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <div>
       <label>Your message:</label>
-      <input type="text" name="message" required>
+      <textarea id="txtarid" name="message" rows="10" cols="100" required></textarea>
     </div>
     <button type="submit">SUBMIT</button>
     <?php echo $messaggio; ?>
@@ -106,6 +110,15 @@ foreach ($_SESSION as $i) {
   echo '<p>'.$i.'</p>';
 }
 ?>
+
+<script>
+function quote(target) {
+  const sel = window.getSelection().toString();   // sel = selected string
+  const pastarea = document.getElementById(target);   // pastarea = element with target id
+  const curcont = pastarea.value;   // curcont = current content of the element
+  pastarea.value = curcont.substring(0, pastarea.selectionStart) + "[quote start:]" + sel + "[:quote end]" + curcont.substring(pastarea.selectionEnd);
+}
+</script>
 
 </body>
 </html>
