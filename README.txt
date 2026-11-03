@@ -1,20 +1,20 @@
 Simple internet forum/imageboard.
+You can test a restricted version at this link: https://heliogeorge.heliohost.us/snowbox/index.php
 
 CURRENTLY AVAILABLE FEATURES:
 - signup/login/logout
 - making threads/posts
 - posting pictures
 - resizing pictures
+- quoting other posts
 - changing avatar/password
 
 STILL UNAVAILABLE FEATURES:
 - changing nickname
-- quoting other posts
 - spoilering/un-spoilering pictures
 
 INFORMATIONS:
 - Made in nginx with PHP and SQLite.
-- You can test a restricted version at: https://heliogeorge.heliohost.us/snowbox/index.php
 
 STRUCTURE:
 - .git:          Git directory (you can remove it).

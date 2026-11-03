@@ -1,7 +1,3 @@
-@font-face {
-  font-family: franks;
-  src: url("/var/www/snowbox/Franks.ttf") format("ttf");
-}
 
 * {
   box-sizing: border-box;
