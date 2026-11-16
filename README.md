@@ -27,3 +27,11 @@ STRUCTURE:
 - README.txt:    Informations about this project (you can remove it).
 - signup.php:    Signup page.
 - snowstyle.css: Looks and aesthetics.
+
+SCREENSHOTS:
+![Home page](./examples/homepage.png)
+![Signup form](./examples/signupform.png)
+![Login form](./examples/loginform.png)
+![User area](./examples/personalarea.png)
+![Board example](./examples/boardpage.png)
+![Thread example](./examples/threadpage.png)
