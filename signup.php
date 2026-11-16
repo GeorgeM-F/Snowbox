@@ -7,28 +7,28 @@ try {
   die("DATABASE CONNECTION ERROR!" . $e->getMessage());
 }
 
-$messaggio = "";     // HTML pieces to fill afterwards
+$message = "";     // HTML pieces to fill afterwards
 $link = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {   // Note: i files are loaded into $_FILES, not $_POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {   // Note: files are loaded into $_FILES, not $_POST
   $nick = isset($_POST['nick']) ? trim($_POST['nick']) : '';
   $avatar = '/pics/'.basename($_FILES['avatar']['tmp_name']);   // loaded file name, edited in order to point at the "pics" directory
   $password = isset($_POST['password']) ? trim($_POST['password']) : '';
-  // CONTROLLO EVENTUALI DOPPIONI
-  $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE nick = :nick OR avatar = :avatar OR password = :password");     // SAFE INSERTION QUERY invece dei valori usiamo dei segnaposto (":"))
-  $stmt->execute([':nick' => $nick, ':avatar' => $avatar, ':password' => $password]);
+  // DOUBLE-COPIES CHECK
+  $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE nick = :nick OR avatar = :avatar");     // SAFE INSERTION QUERY instead of values let's use replacements (":"))
+  $stmt->execute([':nick' => $nick, ':avatar' => $avatar]);
   if ($stmt->fetchColumn() > 0) {
-    $messaggio = "<p style='color: red;'>USER ALREADY PRESENT: CHOOSE ANOTHER NICKNAME AND/OR AVATAR AND/OR PASSWORD.";
+    $message = "<p style='color: red;'>USER ALREADY PRESENT: CHOOSE ANOTHER NICKNAME AND/OR AVATAR.";
   } else {
-    $stmt = $pdo->prepare("INSERT INTO users (nick, avatar, password) VALUES (:nick, :avatar, :password)");     // QUERY (PER L'INSERIMENTO DEI DATI IN MODO SICURO: invece dei valori usiamo dei segnaposto (":"))
+    $stmt = $pdo->prepare("INSERT INTO users (nick, avatar, password) VALUES (:nick, :avatar, :password)");     // SAFE INSERTION QUERY instead of values let's use replacements (":"))
     $stmt->bindParam(':nick', $nick, PDO::PARAM_STR);     // qui si definiscono i segnaposto
     $stmt->bindParam(':avatar', $avatar, PDO::PARAM_STR);
-    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
-    if ($stmt->execute()) {     // Definisce le parti di HTML da visualizzare a seconda dell'esito
-      $messaggio = "<p class='mess' style='color: rgba(0,255,255,1);'>NEW USER CREATED: YOU'VE BEEN SIGNED UP!</p>";
+    $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);      // SAFE PASSWORD INSERTION: instead of simply "$password", let's use "password_hash($password, PASSWORD_DEFAULT)"; the login form must also be changed
+    if ($stmt->execute()) {     // Defines HTML parts to visualize depending on the query outcome
+      $message = "<p class='mess' style='color: rgba(0,255,255,1);'>NEW USER CREATED: YOU'VE BEEN SIGNED UP!</p>";
       $link = "<a class='bot' href='login.php'>LOGIN</a>";
     } else {
-      $messaggio = "<p class='mess' style='color: red;'>ERROR: SOMETHING WENT WRONG</p>";
+      $message = "<p class='mess' style='color: red;'>ERROR: SOMETHING WENT WRONG</p>";
     }
     move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__.'/pics/'.basename($_FILES['avatar']['tmp_name']));
   }
@@ -64,14 +64,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {   // Note: i files are loaded into $
       <input type="password" name="password" required>
     </div>
     <button type="submit">OK</button>
-    <?php echo $messaggio; ?>
+    <?php echo $message; ?>
     <?php echo $link; ?>
   </form>
 
   <a class="bot" href="index.php">BACK</a>
 </div>
 
-<?php   // CODICE DI CONTROLLO SESSIONE, ELIMINARE UNA VOLTA FINITO
+<?php   // SESSION CONTROL CODE, DELETE ONCE FINISHED
 foreach ($_SESSION as $i) {
   echo '<p>'.$i.'</p>';
 }

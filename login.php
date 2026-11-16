@@ -7,29 +7,33 @@ try {
   die("DATABASE CONNECTION ERROR!" . $e->getMessage());
 }
 
-$messaggio = "";
+$message = "";
 $link = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $nick = isset($_POST['nick']) ? trim($_POST['nick']) : '';
   $password = isset($_POST['password']) ? trim($_POST['password']) : '';
-  // MATCH CHECKING QUERY
-  $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE nick = :nick AND password = :password");
-  if ($stmt->execute([':nick' => $nick, ':password' => $password])) {
+  // MATCH CHECKING QUERY (only nick for now, because of hashed password)
+  $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE nick = :nick");
+  if ($stmt->execute([':nick' => $nick])) {
     if ($stmt->fetchColumn() > 0) {
-      // SESSION FILLING QUERY
-      $stmt = $pdo->prepare("SELECT * FROM users WHERE nick = :nick AND password = :password");
-      $stmt->execute([':nick' => $nick, ':password' => $password]);
+      // SESSION FILLING QUERY (only nick for now, because of hashed password)
+      $stmt = $pdo->prepare("SELECT * FROM users WHERE nick = :nick");
+      $stmt->execute([':nick' => $nick]);
       $dati = $stmt->fetch(PDO::FETCH_NUM);
-      $_SESSION["curuser"]=$dati[2];     // Riempimento sessione
-      $messaggio = "<p class='mess' style='color: rgba(0,255,255,1);'>YOU'RE IN!</p>
-      <p class='mess' style='color: rgba(0,255,255,1);'>You're logged in as <strong>".$_SESSION["curuser"]."</strong>.</p>";
-      $link = "<a class='bot' href='usareat.php'>ENTER</a>";
+      if (password_verify($password, $dati[4])) {   // Now check whether the user-inserted password matches with the hashed one from the database
+        $_SESSION["curuser"]=$dati[2];     // Session filling
+        $message = "<p class='mess' style='color: rgba(0,255,255,1);'>YOU'RE IN!</p>
+        <p class='mess' style='color: rgba(0,255,255,1);'>You're logged in as <strong>".$_SESSION["curuser"]."</strong>.</p>";
+        $link = "<a class='bot' href='usareat.php'>ENTER</a>";
+      } else {
+        $message = "<p class='mess' style='color: red;'>ACCESS DENIED: WRONG PASSWORD!</p>";
+      }
     } else {
-      $messaggio = "<p class='mess' style='color: red;'>ACCESS DENIED: WRONG CREDENTIALS!</p>";
+      $message = "<p class='mess' style='color: red;'>ACCESS DENIED: WRONG USERNAME!</p>";
     }
   } else {
-    $messaggio = "<p class='mess' style='color: red;'>ERRORE: non è stato possibile effettuare l'accesso.</p>";
+    $message = "<p class='mess' style='color: red;'>ERROR: it wasn't possible to access.</p>";
   }
 }
 
@@ -64,7 +68,7 @@ if (isset($_POST['submit'])) {
       <input type="password" name="password" required>
     </div>
     <button type="submit" name="submit">LOGIN</button>
-    <?php echo $messaggio; ?>
+    <?php echo $message; ?>
     <?php echo $link; ?>
   </form>
 
